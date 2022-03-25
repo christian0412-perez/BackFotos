@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba</title>
+</head>
+<body>
+    <h3>Login</h3>
+    <form action="http://127.0.0.1:3001/login" method="POST">
+        <input type="text" name="user" placeholder="usuer">
+        <input type="text" name="password" placeholder="password">
+        <button type="submit"> Enviar </button>
+    </form>
+    <br>
+    <h3>Singup</h3>
+    <form action="http://localhost:3001/singup" method="POST">
+        <input type="text" name="user" placeholder="usuer">
+        <input type="text" name="password" placeholder="password">
+        <button type="submit"> Enviar </button>
+    </form>
+    <br>
+
+    <h3>Agregar imagenes directo</h3>
+    <form action="http://localhost:3001/set_image2" method="POST" enctype="multipart/form-data">
+        <input type="file" id="img" multiple="true" name="files" accept="image/*" placeholder="image">        
+        <button type="submit"> Enviar </button>
+    </form>
+    <br>
+
+    <h3>Agregar imagenes por AJAX</h3>
+    <form id="formImg" method="POST" enctype="multipart/form-data">
+        <input type="file" id="img" multiple="true" name="file" accept="image/*" placeholder="image">        
+    </form>
+    <button type="submit" onclick="enviar()"> Enviar </button>
+
+    <h3>Mostrar imagenes</h3>
+    <form action="http://localhost:3001/get_Images" method="GET" enctype="multipart/form-data">        
+        <button type="submit"> Enviar </button>
+    </form>    
+    
+</body>
+</html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+
+    function enviar(){
+        console.log("entra")
+
+
+        let imagenes = document.getElementById('img')
+        console.log(imagenes.length)
+
+        for(let i=0; i <=imagenes.length -1; i+=1){
+            console.log("Array: " + imagenes.files[i])
+        }
+
+        console.log(imagenes)
+
+        $.ajax({
+            url: "http://localhost:3001/set_image",
+            type:"POST",
+            data: JSON.stringify(imagenes),
+            contentType: 'application/json; charset=utf-8',            
+        }).done(function(response){
+            console.log(response)
+        })
+
+    }
+
+    /*
+            var form_data = new FormData();
+        var auxnames = "";
+        var wordsF = $("#formImg").prop("files");
+        $.each(wordsF, function(i, file){
+            form_data.append(file.name, file);
+            auxnames += file.name+',';
+        });
+        form_data.append('auxindex', auxnames);
+        console.log(form_data)
+        console.log(auxnames)
+    */
+
+</script>
+
